@@ -4,7 +4,13 @@
  */
 package Telas;
 
+import Telas.Cads.TelaCadMed;
 import com.mysql.cj.xdevapi.Schema;
+import java.sql.SQLException;
+import java.util.*;
+import Telas.TelaInicial;
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -12,18 +18,22 @@ import com.mysql.cj.xdevapi.Schema;
  */
 public class TelaLogin extends javax.swing.JFrame {
 
-    /**
-     * Creates new form TelaLogin
-     */
     public TelaLogin() {
         initComponents();
+        lblPreenCamp.setVisible(false);
     }
 
-    public int validacao(String txtUserr, String txtSenhaa) {
-        if (txtSenhaa.equals("admin") && txtUserr.equals("admin")) {
+    public int validacaoDecampoPreenchido(String txtCpff, String txtSenhaa) {
+        if (txtSenhaa.equals("") && txtCpff.equals("")) {
+            lblPreenCamp.setVisible(true);
+            return 2;
+        } else if (txtSenhaa.equalsIgnoreCase("admin") && txtCpff.equalsIgnoreCase("admin")) {
+            return 0;
+        } else if (txtSenhaa.equals("user1") && txtCpff.equals("user1")) {
             return 1;
         } else {
-            return 0;
+            JOptionPane.showMessageDialog(null, "Erro de verificação de cadastro");
+            return -1;
         }
     }
 
@@ -42,47 +52,64 @@ public class TelaLogin extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtSenha = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
-        txtUsuario = new javax.swing.JTextField();
+        btnEntrar = new javax.swing.JButton();
+        txtCpf = new javax.swing.JTextField();
+        lblPreenCamp = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Tela De Login");
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(500, 300));
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel1.setText("Log-in!");
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Usuario:");
+        jLabel2.setText("Cpf:");
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Senha:");
 
         txtSenha.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        jButton1.setText("Entrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        txtSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSenhaKeyPressed(evt);
             }
         });
 
-        txtUsuario.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        txtUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtUsuario.addActionListener(new java.awt.event.ActionListener() {
+        btnEntrar.setText("Entrar");
+        btnEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUsuarioActionPerformed(evt);
+                btnEntrarActionPerformed(evt);
             }
         });
+        btnEntrar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnEntrarKeyPressed(evt);
+            }
+        });
+
+        txtCpf.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        txtCpf.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtCpf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCpfActionPerformed(evt);
+            }
+        });
+        txtCpf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCpfKeyPressed(evt);
+            }
+        });
+
+        lblPreenCamp.setText("Preencha todos os campos");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(204, 204, 204))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -90,31 +117,39 @@ public class TelaLogin extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(89, 89, 89)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(txtSenha))))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(219, 219, 219)
+                        .addComponent(btnEntrar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(189, 189, 189)
+                        .addComponent(lblPreenCamp)))
                 .addContainerGap(139, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(69, Short.MAX_VALUE)
+                .addContainerGap(70, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(8, 8, 8)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(33, 33, 33)
-                .addComponent(jButton1)
-                .addGap(55, 55, 55))
+                    .addComponent(jLabel3)
+                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(lblPreenCamp)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnEntrar)
+                .addGap(42, 42, 42))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -129,28 +164,78 @@ public class TelaLogin extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         // TODO add your handling code here:
+        String txtCpff = txtCpf.getText();
         String txtSenhaa = txtSenha.getText();
-        String txtUserr = txtUsuario.getText();
-        int val = validacao(txtUserr, txtSenhaa);
-        switch (val) {
-            case 1:
-                telaPrincipal tlPrincipal = new telaPrincipal();
-                tlPrincipal.setVisible(true);
 
+        int val = validacaoDecampoPreenchido(txtCpff, txtSenhaa);
+        switch (val) {
+            case 0 -> {
+                TelaInicial tlPrinVer = new TelaInicial();
+                tlPrinVer.setVisible(true);
+                Telas.TelaInicial.lblUsername.setText("Olá, Administrador!");
                 this.dispose();
-                break;
-            default:
+            }
+            case 1 -> {
+                TelaCadMed tlPrinVer = new TelaCadMed();
+                tlPrinVer.setVisible(true);
+                Telas.TelaInicial.btnCadastroMed.setVisible(false);
+                Telas.TelaInicial.btnCadastroSec.setVisible(false);
+                Telas.TelaInicial.lblUsername.setText("Olá, User1!");
+                this.dispose();
+            }
+            default ->
                 throw new AssertionError();
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnEntrarActionPerformed
 
-    private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
+    private void txtCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCpfActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtUsuarioActionPerformed
+    }//GEN-LAST:event_txtCpfActionPerformed
+
+    private void txtCpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCpfKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            txtSenha.requestFocus();
+        }
+    }//GEN-LAST:event_txtCpfKeyPressed
+
+    private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnEntrar.requestFocus();
+        }
+    }//GEN-LAST:event_txtSenhaKeyPressed
+
+    private void btnEntrarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnEntrarKeyPressed
+        // TODO add your handling code here:
+        String txtCpff = txtCpf.getText();
+        String txtSenhaa = txtSenha.getText();
+
+        int val = validacaoDecampoPreenchido(txtCpff, txtSenhaa);
+        switch (val) {
+            case 0 -> {
+                TelaInicial tlPrinVer = new TelaInicial();
+                tlPrinVer.setVisible(true);
+                Telas.TelaInicial.lblUsername.setText("Olá, Administrador!");
+                this.dispose();
+            }
+            case 1 -> {
+                TelaCadMed tlPrinVer = new TelaCadMed();
+                tlPrinVer.setVisible(true);
+                Telas.TelaInicial.btnCadastroMed.setVisible(false);
+                Telas.TelaInicial.btnCadastroSec.setVisible(false);
+                Telas.TelaInicial.lblUsername.setText("Olá, User1!");
+                this.dispose();
+            }
+            default ->
+                throw new AssertionError();
+        }
+    }//GEN-LAST:event_btnEntrarKeyPressed
 
     /**
      * @param args the command line arguments
@@ -185,16 +270,18 @@ public class TelaLogin extends javax.swing.JFrame {
                 new TelaLogin().setVisible(true);
             }
         });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    public static javax.swing.JButton btnEntrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollBar jScrollBar1;
+    private javax.swing.JLabel lblPreenCamp;
+    private javax.swing.JTextField txtCpf;
     private javax.swing.JPasswordField txtSenha;
-    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
